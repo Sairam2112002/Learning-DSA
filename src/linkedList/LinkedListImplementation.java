@@ -1,7 +1,5 @@
 package linkedList;
 
-import java.util.LinkedList;
-
 public class LinkedListImplementation {
     Node head;
     int size;
@@ -17,7 +15,7 @@ public class LinkedListImplementation {
         Node(int data) {
             this.data = data;
             this.next = null;
-            size++;
+            size += 1;
         }
     }
 
@@ -46,6 +44,32 @@ public class LinkedListImplementation {
         currentNode.next = newNode;
     }
 
+    // Insert at index
+    void addAtIndex(int data, int index) {
+        if(index > size-1) {
+            System.out.println("Index out of bounds, enter a valid index");
+            return;
+        }
+
+        if(index == 0) {
+            addFirst(data);
+            return;
+        } else if(index == size - 1) {
+            addLast(data);
+            return;
+        }
+
+        Node newNode = new Node(data);
+        Node currentNode = head;
+        int currentIndex = 0;
+        while(currentIndex != index-1) {
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+        newNode.next = currentNode.next;
+        currentNode.next = newNode;
+    }
+
     // Delete first
     void deleteFirst() {
         if(head == null) {
@@ -53,7 +77,7 @@ public class LinkedListImplementation {
             return;
         }
         head = head.next;
-        size--;
+        size -= 1;
     }
 
     // Delete last
@@ -63,7 +87,7 @@ public class LinkedListImplementation {
             return;
         } else if(head.next == null) {
             head = null;
-            size--;
+            size -= 1;
             return;
         }
 
@@ -74,7 +98,34 @@ public class LinkedListImplementation {
             secondLastNode = secondLastNode.next;
         }
         secondLastNode.next = null;
-        size--;
+        size -= 1;
+    }
+
+    // Delete at index
+    void deleteAtIndex(int index) {
+        if(index > size-1) {
+            System.out.println("Index out of bounds, enter a valid index");
+            return;
+        }
+
+        if(index == 0) {
+            deleteFirst();
+            return;
+        } else if(index == size - 1) {
+            deleteLast();
+            return;
+        }
+
+        Node currentNode = head;
+        Node previousNode = currentNode;
+        int currentIndex = 0;
+        while(currentIndex != index) {
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+            currentIndex++;
+        }
+        previousNode.next = currentNode.next;
+        size -= 1;
     }
 
     // Print linked list
@@ -105,6 +156,8 @@ public class LinkedListImplementation {
         linkedList.addFirst(45);
         linkedList.addFirst(44);
         linkedList.addLast(50);
+        linkedList.addAtIndex(100, 3);
+        linkedList.addAtIndex(200, 1);
         linkedList.printLinkedList();
         System.out.println(linkedList.getSize());
 
@@ -113,6 +166,8 @@ public class LinkedListImplementation {
         linkedList.printLinkedList();
         System.out.println(linkedList.getSize());
 
-        LinkedList<Integer> integers = new LinkedList<>();
+        linkedList.deleteAtIndex(2);
+        linkedList.printLinkedList();
+        System.out.println(linkedList.getSize());
     }
 }
